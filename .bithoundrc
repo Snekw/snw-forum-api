@@ -1,0 +1,14 @@
+{
+  "ignore": [
+    "**/node_modules/**",
+    "**/**-min-**",
+    "**/**-min.**",
+    "**/**.min.**",
+  ],
+  "test": [
+    "**/test/**"
+  ],
+  "dependencies": {
+    "unused-ignores": []
+  }
+}

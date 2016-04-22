@@ -21,17 +21,23 @@ var LoginInstanceSchema = new mongoose.Schema({
 LoginInstanceSchema.index({expAt: 1}, { expireAfterSeconds: ms(authConfig.authExpire) /1000 });
 
 //Expiration
-LoginInstanceSchema.pre('save', function (next) {
+LoginInstanceSchema.methods.setExpiry = function (next) {
   this.expAt = Date.now();
   next();
-});
-
-mongoose.model('loginInstance', LoginInstanceSchema);
+};
 
 //Expiration
-mongoose.model('loginInstance').ensureIndexes(function(err) {
+LoginInstanceSchema.methods.ensureCb = function(err) {
   if (err){
     throw err;
   }
-  // console.log('loginInstance index', err)
-});
+};
+
+//Expiration
+LoginInstanceSchema.pre('save', LoginInstanceSchema.methods.setExpiry);
+
+mongoose.model('loginInstance', LoginInstanceSchema);
+
+
+//Expiration
+mongoose.model('loginInstance').ensureIndexes(LoginInstanceSchema.methods.ensureCb);

@@ -2,6 +2,14 @@
   "name": "snw-forum-api",
   "version": "0.0.1",
   "license": "MIT",
+  "description": "Forum for gaming communities",
+  "bugs": {
+    "url": "https://github.com/Snekw/snw-forum-api/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Snekw/snw-forum-api.git"
+  },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.0",
@@ -21,7 +29,8 @@
     "codeclimate-test-reporter": "^0.3.1",
     "eslint": "^2.8.0",
     "istanbul": "^0.4.3",
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "proxyquire": "^1.7.4"
   },
   "scripts": {
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha",

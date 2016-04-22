@@ -4,18 +4,17 @@
  */
 "use strict";
 
-var expect = require('chai').expect;
+var expect = require('chai').expect,
+    proxyquire = require('proxyquire');
 
+var configStub = require('../src/config/configDev');
 
-require('../src/db/setup');
+proxyquire('../src/db/setup', configStub);
 var models = require('../src/db/models');
 
 describe('Models.js', function (  ){
-  beforeEach(function (  ){
-    models = require('../src/db/models');
-  });
-
   it('should have user model', function (  ){
+    console.log(configStub.db.enabled);
     expect(models.user).to.exist;
   });
 

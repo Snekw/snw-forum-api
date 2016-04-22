@@ -15,11 +15,4 @@ o.db.enabled = true;
 
 debug('Main Config: ' + JSON.stringify(o));
 
-//Replace the config data with dev config data
-if (process.env.SNW_FORUM_API_DEV === true){
-  o = require('./configDev');
-}
-
-debug('Main Config: ' + JSON.stringify(o));
-
 module.exports = o;
