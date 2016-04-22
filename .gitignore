@@ -4,3 +4,4 @@ node_modules
 # Don't leak sensitive information from the config to git
 # We create config.example.js To give a sample config with no sensitive information
 **/*config.js
+**/*Config.js
