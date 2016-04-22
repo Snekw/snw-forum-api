@@ -1,0 +1,6 @@
+/*
+  This file exist only because I need some thing to remind me later to create these configs
+*/
+
+//TODO Create example configs
+//Only after the configs have been more established
