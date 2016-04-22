@@ -7,7 +7,12 @@
 var expect = require('chai').expect,
     proxyquire = require('proxyquire');
 
-var configStub = require('../src/config/configDev');
+var configStub = {};
+if (process.env.SNW_FORUM_API_DEV){
+  configStub = require('../src/config/configDev');
+}else{
+  configStub = require('../src/config/config');
+}
 
 proxyquire('../src/db/setup', configStub);
 var models = require('../src/db/models');

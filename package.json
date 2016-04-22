@@ -30,6 +30,7 @@
     "eslint": "^2.8.0",
     "istanbul": "^0.4.3",
     "mocha": "^2.4.5",
+    "mongoose-mock": "^0.4.0",
     "proxyquire": "^1.7.4"
   },
   "scripts": {
