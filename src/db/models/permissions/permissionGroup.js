@@ -8,7 +8,7 @@ var permissionGroupSchema = new mongoose.Schema({
     name: String,
     description: String,
     scopes: [{type: mongoose.Schema.ObjectId, ref: 'permissionScope'}]
-});
+  });
 
 mongoose.model('permissionGroup', permissionGroupSchema);
 

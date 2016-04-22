@@ -23,7 +23,7 @@ o.loginDefault = function (req, res, next) {
       return;
     }
 
-    if(user != 'bad'){
+    if(user !== 'bad'){
       lib.successFullAuth(user, res);
     }else{
       lib.failedAuth({type: 'local', f:'Wrong email or password.', a: 'show'}, res);
@@ -45,7 +45,7 @@ o.registerDefault = function (req, res, next) {
       return;
     }
 
-    if(user != 'bad'){
+    if(user !== 'bad'){
       debug('Registration successful');
       lib.successFullAuth(user, res);
     }else{
@@ -128,24 +128,24 @@ var register = function (email, pw, userName, cb) {
         if(err){
           debug('Error: ' + JSON.stringify(err));
           cb(err, 'bad');
-        }else{
-          db.user.findById(u._id, function (err, user) {
-            if(err){
-              debug('Error: ' + JSON.stringify(err));
-              cb(err, 'bad');
-              return;
-            }
-
-            if(user){
-              debug('User saved. User: ' + JSON.stringify(user));
-              cb(null, user);
-            }else{
-              debug('Created user not found!');
-              cb(err, 'bad');
-            }
-          });
+          return;
         }
-      })
+        db.user.findById(u._id, function (err, user) {
+          if(err){
+            debug('Error: ' + JSON.stringify(err));
+            cb(err, 'bad');
+            return;
+          }
+
+          if(user){
+            debug('User saved. User: ' + JSON.stringify(user));
+            cb(null, user);
+          }else{
+            debug('Created user not found!');
+            cb(err, 'bad');
+          }
+        });
+      });
     }
   });
 };

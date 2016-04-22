@@ -22,7 +22,7 @@ o.validateGoogleIdToken = function (idToken, cb) {
       throw err;
     }
 
-    if(resp.statusCode == 200){
+    if(resp.statusCode === 200){
       debug('Id token validated');
       cb(JSON.parse(body));
     }else{
@@ -43,25 +43,26 @@ o.auth = function (req, res, next) {
 
   //Validate the id token
   o.validateGoogleIdToken(req.body.idToken, vgitcb);
-
+//TODO Splice this func
   function vgitcb(validated) {
     db.user.findOne({'authentication.emails': validated.email},
       function (err, user) {
         if(err){
           debug('Error finding user. Provider: google');
           next(err);
+          return;
         }
 
         if(user){
           var prov = null;
           for(var i = 0; i < user.authentication.providers.length; i++){
-            if(user.authentication.providers[i].pType == 'Google'){
+            if(user.authentication.providers[i].pType === 'Google'){
               prov = user.authentication.providers[i];
               break;
             }
           }
           if(prov){
-            if(prov.email == validated.email && prov.id == validated.sub){
+            if(prov.email === validated.email && prov.id === validated.sub){
               lib.successFullAuth(user, res);
             }else{
               lib.failedAuth( {type: 'google', f: 'There is already an account using that email', a:'show', i:'g1' }, res);
@@ -100,7 +101,7 @@ o.auth = function (req, res, next) {
             }
           });
         }
-      })
+      });
   }
 };
 

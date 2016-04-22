@@ -1,6 +1,7 @@
 {
   "name": "snw-forum-api",
   "version": "0.0.1",
+  "license": "MIT",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.0",
@@ -13,5 +14,16 @@
     "node-uuid": "^1.4.7",
     "request": "^2.71.0",
     "shortid": "^2.2.6"
+  },
+  "devDependencies": {
+    "bithound": "^1.2.0",
+    "chai": "^3.5.0",
+    "codeclimate-test-reporter": "^0.3.1",
+    "istanbul": "^0.4.3",
+    "mocha": "^2.4.5"
+  },
+  "scripts": {
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha",
+    "bithound": "bithound check git@github.com:Snekw/snw-forum-api.git"
   }
 }
