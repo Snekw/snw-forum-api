@@ -2,15 +2,14 @@ language: node_js
 node_js: stable
 dist: trusty
 sudo: required
-addons:
-  code_climate:
-    repo_token: CODECLIMATE_REPO_TOKEN
 before_script:
 - npm install -g istanbul codeclimate-test-reporter mocha
 script:
 - xvfb-run mocha
 - if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then mocha;
-- if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then npm run coverage;
-  fi
+- if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then npm run coverage; fi
 after_script:
-  - codeclimate-test-reporter < coverage/lcov.info
+- codeclimate-test-reporter < coverage/lcov.info
+env:
+  global:
+    secure: lwq/JDZcgtNY2UOpk841zRuA+6UYcGd2Sntw5BcotTYJHTEjp6YKUzUuJQvBbFeRkOK8ayqfG1ZSl8IOcLjS52hEPhy/wijYZ+DG9pLcdtzHahl/1+YNbG8Qaowwy+UZtJ/F1uk9Ce5ZP6v117CZchjSTlhvrvFeHqkVkZvTy9gVK/B91Ofu32GcPbvwq7svnX6ks/8C63dREyTt5+bUgAxSIbSOqyse7MtIpCZjh44P1yca68U9d9OF+AuTKCgVvzfm4YFTePqReyqNgV2apPyo6DwRTg02Xe2jEOToKvQUPQDUq0WJK720pwwA1P/45LDmiveCy44tj0Pk8xYLQaR6iNuZj8oP1lmriJP4z8uJZYbiIqzNxAETU+DkimjnYs62bW+b+myDetpwyjJuoclbh7yOOB+ed+f0YaB2ptf1OT6KpOfmxR374ZZYU4GVS8LnwGp27iMpf7rAHEAsN+xK/ouQkiNHBvfuWH0pQysmPKYZUpcN660dV292wyXO03WtDZ4mqvLvOSpN0O2RuIn9Ez289kca8az7Rizh2cJxDLZlUCsceW5MGgSltC5WJzfzxCkSMQckMD+WE1uLsnJGUsJoDIiqZYQeSGcQd6zyVtntVt9ZrBdO9VQ3nIGjzq5sv41zhHmgMsXAMg1ubwkS4UfnMSU+JLLPeluSnSA=
