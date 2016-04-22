@@ -6,7 +6,6 @@ before_script:
 - npm install -g istanbul codeclimate-test-reporter mocha
 script:
 - xvfb-run mocha
-- if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then mocha;
 - if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then npm run coverage; fi
 after_script:
 - codeclimate-test-reporter < coverage/lcov.info

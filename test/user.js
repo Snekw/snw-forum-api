@@ -1,3 +1,7 @@
+/* eslint-disable */
+/**
+ * Created by Ilkka on 22.4.2016.
+ */
 var expect = require( 'chai' ).expect;
 
 var mongoose = require('mongoose');
