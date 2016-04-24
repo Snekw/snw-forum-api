@@ -14,7 +14,6 @@ var models = require('../../src/db/models');
 
 describe('Models.js', function (  ){
   it('should have user model', function (  ){
-    console.log(configStub.db.enabled);
     expect(models.user).to.exist;
   });
 
