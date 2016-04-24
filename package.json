@@ -38,7 +38,7 @@
     "test": "mocha --recursive",
     "coverage-win": "istanbul cover -i ./src/**/*.js -x **/*Dev.js --include-all-sources ./node_modules/mocha/bin/_mocha -- --recursive",
     "coverage": "istanbul cover -i ./src/**/*.js -x **/*Dev.js --include-all-sources ./node_modules/.bin/_mocha -- --recursive",
-    "coverage-ci": "istanbul cover -i ./src/**/*.js --include-all-sources --report lcovonly ./node_modules/.bin/_mocha -- --recursive",
+    "coverage-ci": "istanbul cover -i ./src/**/*.js --include-all-sources --report lcovonly --print both ./node_modules/.bin/_mocha -- --recursive",
     "bithound": "bithound check git@github.com:Snekw/snw-forum-api.git"
   }
 }
