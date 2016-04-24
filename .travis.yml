@@ -5,7 +5,7 @@ sudo: required
 services:
  - mongodb
 before_script:
-- npm install -g istanbul codeclimate-test-reporter mocha
+- npm install -g istanbul@1.0.0-alpha.2 codeclimate-test-reporter mocha
 script:
 - xvfb-run npm run test
 - if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then xvfb-run npm run coverage-ci; fi
