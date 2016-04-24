@@ -7,7 +7,7 @@ var debug = require('debug')('Api:app');
 var path = require('path');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
-var config = require('../config/config.js');
+var config = require('../config/config');
 
 debug('Initialize express');
 var app = express();

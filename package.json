@@ -30,11 +30,13 @@
     "eslint": "^2.8.0",
     "istanbul": "^0.4.3",
     "mocha": "^2.4.5",
-    "mongoose-mock": "^0.4.0",
-    "proxyquire": "^1.7.4"
+    "proxyquire": "^1.7.4",
+    "sinon": "^1.17.3",
+    "sinon-chai": "^2.8.0"
   },
   "scripts": {
-    "coverage": "istanbul cover node_modules/mocha/bin/_mocha",
+    "coverage": "istanbul cover -i src/**/*.js -x **/*Dev.js --include-all-sources node_modules/mocha/bin/_mocha -- --recursive",
+    "coverage-ci": "istanbul cover -i src/**/*.js --include-all-sources --report lcovonly node_modules/mocha/bin/_mocha -- --recursive",
     "bithound": "bithound check git@github.com:Snekw/snw-forum-api.git"
   }
 }

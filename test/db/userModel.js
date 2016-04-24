@@ -5,7 +5,7 @@
 var expect = require( 'chai' ).expect;
 
 var mongoose = require('mongoose');
-var user = require('../src/db/models/user/user');
+var user = require('../../src/db/models/user/user');
 var model = mongoose.model('user');
 
 describe( 'user model', function (){

@@ -3,11 +3,19 @@
  */
 "use strict";
 var mongoose = require('mongoose');
-var o = {};
 
-o.user = mongoose.model('user');
-o.permissionScope = mongoose.model('permissionScope');
-o.permissionGroup = mongoose.model('permissionGroup');
-o.loginInstance = mongoose.model('loginInstance');
+/*
+ DB setup
+ Require needed models
+ */
+require('./models/user/user');
+require('./models/permissions/permissionScope');
+require('./models/permissions/permissionGroup');
+require('./models/user/loginInstance');
 
-module.exports = o;
+module.exports = {
+  user: mongoose.model('user'),
+  permissionScope: mongoose.model('permissionScope'),
+  permissionGroup: mongoose.model('permissionGroup'),
+  loginInstance: mongoose.model('loginInstance')
+};

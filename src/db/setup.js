@@ -6,37 +6,53 @@ var debug = require('debug')('Api:db');
 var mongoose = require('mongoose');
 var config = require('../config/config');
 
-/*
- DB setup
- Require needed models
- */
-require('./models/user/user');
-require('./models/permissions/permissionScope');
-require('./models/permissions/permissionGroup');
-require('./models/user/loginInstance');
 
 //Connect to DB
 if(config.db.enabled) {
-    debug('Starting connection to db.');
-    mongoose.connect(config.db.connectionString);
+  debug('Starting connection to db.');
+  mongoose.connect(config.db.connectionString, config.db.options);
 }else{
-    debug('Not connecting to db.');
+  debug('Not connecting to db.');
 }
+
+/**
+ * Eventhandler
+ * Connecting to db
+ */
+var connecting = function (  ){
+  debug('Connecting to db. connectionString: ' + config.db.connectionString);
+};
+
+/**
+ * Eventhandler
+ * Error on connecting to db
+ */
+var error = function (  ){
+  debug('Connecting to db failed!');
+};
+
+/**
+ * Eventhandler
+ * Connected to db
+ */
+var connected = function (  ){
+  debug('Connected to db!');
+};
+
+/**
+ * Eventhandler
+ * Reconnected to db
+ */
+var reconnected = function (  ){
+  debug('Reconnected to db!');
+};
 
 //Events
 
-mongoose.connection.on('connecting', function () {
-    debug('Connecting to db. connectionString: ' + config.db.connectionString);
-});
+mongoose.connection.on('connecting', connecting);
 
-mongoose.connection.on('error', function () {
-    debug('Connecting to db failed!');
-});
+mongoose.connection.on('error', error);
 
-mongoose.connection.on('connected', function () {
-    debug('Connected to db!');
-});
+mongoose.connection.on('connected', connected);
 
-mongoose.connection.on('reconnected', function () {
-    debug('Reconnected to db!');
-});
+mongoose.connection.on('reconnected', reconnected);

@@ -5,7 +5,7 @@
 var expect = require( 'chai' ).expect;
 
 var mongoose = require('mongoose');
-var loginInstance = require('../src/db/models/user/loginInstance');
+var loginInstance = require('../../src/db/models/user/loginInstance');
 var model = mongoose.model('loginInstance');
 
 describe( 'loginInstanceModel', function (){

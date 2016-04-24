@@ -29,7 +29,7 @@ o.registerDefault = pLocal.registerDefault;
 
 o.google = pGoogle.auth;
 
-o.logout = function (req, res, next) {
+o.logout = function (req, res) {
   lib.expireJwt(req.headers.authentication, function (isSuccessful) {
     if(isSuccessful){
       res.status(200).json({message: 'Logged out'});

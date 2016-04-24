@@ -56,7 +56,7 @@ o.auth = function (req, res, next) {
         if(user){
           var prov = null;
           for(var i = 0; i < user.authentication.providers.length; i++){
-            if(user.authentication.providers[i].pType === 'Google'){
+            if(user.authentication.providers[i].pType === 'google'){
               prov = user.authentication.providers[i];
               break;
             }
@@ -87,7 +87,7 @@ o.auth = function (req, res, next) {
           newUser.authentication.activeLogins = [];
           newUser.authentication.providers = [];
           newUser.authentication.providers.push({
-            pType: 'Google',
+            pType: 'google',
             email: validated.email.toString(),
             id: validated.sub.toString()
           });

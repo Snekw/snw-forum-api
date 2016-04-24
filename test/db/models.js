@@ -5,17 +5,12 @@
 "use strict";
 
 var expect = require('chai').expect,
-    proxyquire = require('proxyquire');
+    proxyquire = require('proxyquire'),
+    configStub = require('../../helpers/configStub')('config');
 
-var configStub = {};
-if (process.env.SNW_FORUM_API_DEV){
-  configStub = require('../src/config/configDev');
-}else{
-  configStub = require('../src/config/config');
-}
+proxyquire('../../src/db/setup', configStub);
 
-proxyquire('../src/db/setup', configStub);
-var models = require('../src/db/models');
+var models = require('../../src/db/models');
 
 describe('Models.js', function (  ){
   it('should have user model', function (  ){
