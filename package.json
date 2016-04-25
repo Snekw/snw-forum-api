@@ -11,6 +11,7 @@
     "url": "https://github.com/Snekw/snw-forum-api.git"
   },
   "dependencies": {
+    "async": "^2.0.0-rc.3",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.0",
     "debug": "^2.2.0",
@@ -32,13 +33,14 @@
     "mocha": "^2.4.5",
     "proxyquire": "^1.7.4",
     "sinon": "^1.17.3",
-    "sinon-chai": "^2.8.0"
+    "sinon-chai": "^2.8.0",
+    "supertest": "^1.2.0"
   },
   "scripts": {
     "test": "mocha --recursive",
-    "coverage-win": "istanbul cover -root ./src -x **/*Dev.js --include-all-sources ./node_modules/mocha/bin/_mocha -- --recursive",
-    "coverage": "istanbul cover -root ./src -x **/*Dev.js --include-all-sources ./node_modules/.bin/_mocha -- --recursive",
-    "coverage-ci": "istanbul cover -root ./src --include-all-sources --report lcovonly --print both ./node_modules/.bin/_mocha -- --recursive",
+    "coverage-win": "istanbul cover -root ./src -x **/*Dev.js -x **/helpers/**/*.js --include-all-sources ./node_modules/mocha/bin/_mocha -- --recursive",
+    "coverage": "istanbul cover -root ./src -x **/*Dev.js -x **/helpers/**/*.js --include-all-sources ./node_modules/.bin/_mocha -- --recursive",
+    "coverage-ci": "istanbul cover -root ./src -x **/helpers/**/*.js --include-all-sources --report lcovonly --print both ./node_modules/.bin/_mocha -- --recursive",
     "bithound": "bithound check git@github.com:Snekw/snw-forum-api.git"
   }
 }

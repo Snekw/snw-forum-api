@@ -5,17 +5,22 @@
 var chai = require( 'chai' ),
     expect = chai.expect,
     proxyquire = require('proxyquire'),
-    configStub = require('../helpers/configStub'),
+    dbHelpers = require('../src/helpers/dbHelpers'),
     sinon = require('sinon'),
     sinonChai = require('sinon-chai'),
-    mongoose = require('mongoose');
+    mongoose = require('mongoose'),
+    async = require('async');
 
 chai.use(sinonChai);
 
-before(function(){
-  proxyquire('../src/db/setup', {'../../config/config': configStub});
+
+before(function(done){
+  require('../src/db/setup');
+
+  dbHelpers.clearAndMock(done);
 });
 
 after(function(){
+  dbHelpers.clearDb();
   mongoose.connection.close();
 });

@@ -7,7 +7,7 @@ var debug = require('debug')('Api:app');
 var path = require('path');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
-var config = require('../config/config');
+var config = require('../helpers/configStub')('main');
 
 debug('Initialize express');
 var app = express();
@@ -55,6 +55,7 @@ app.use(function(req, res, next) {
 
 // Development error handler
 // will print stacktrace
+/* istanbul ignore if */
 if (app.get('env') === 'development') {
     app.use(function(err, req, res) {
         console.log(err.stack);
@@ -65,6 +66,7 @@ if (app.get('env') === 'development') {
 
 // Production error handler
 // no stacktraces leaked to user
+/* istanbul ignore next */
 app.use(function(err, req, res) {
     res.status(err.status || 500);
     res.json({message: err.message, error: {}});

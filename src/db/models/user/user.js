@@ -7,7 +7,6 @@ var uuid = require('node-uuid');
 var bcrypt = require('bcrypt-nodejs');
 var shortid = require('shortid');
 var ms = require('ms');
-var authConfig = require('../../../config/authConfig');
 
 /*
  Helpers

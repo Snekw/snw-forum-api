@@ -1,12 +1,13 @@
 /* eslint-disable global-require */
+/* istanbul ignore next */
 /**
  * Created by Ilkka on 22.4.2016.
  */
 "use strict";
 module.exports = function(conf){
   if (process.env.SNW_FORUM_API_DEV){
-    return require('../src/config/' + conf + 'Dev');
+    return require('../config/' + conf + 'ConfigDev');
   }else{
-    return require('../src/config/' + conf);
+    return require('../config/' + conf + 'Config');
   }
 };

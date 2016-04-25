@@ -6,7 +6,7 @@ var debug = require('debug')('Auth:routes');
 var express = require('express');
 var router = express.Router();
 
-var authConfig = require('../../config/authConfig');
+var authConfig = require('../../helpers/configStub')('auth');
 var api = require('./api');
 /*
     Base route: /auth
@@ -24,7 +24,7 @@ var api = require('./api');
 router.post('/v/u', api.validateUsername);
 router.post('/v/e', api.validateEmail);
 
-//Login
+//Login / register
 router.post('/default', api.loginDefault);
 router.post('/default/r', api.registerDefault);
 router.post('/google', api.google);

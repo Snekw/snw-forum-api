@@ -3,7 +3,7 @@
  */
 "use strict";
 var debug = require('debug')('Auth:local');
-var authConfig = require('../../../config/authConfig');
+var authConfig = require('../../../helpers/configStub')('auth');
 var db = require('../../../db/models');
 var uuid = require('node-uuid');
 var lib = require('../lib');
@@ -17,6 +17,7 @@ o.loginDefault = function (req, res, next) {
 
   debug('Login starting. Using local.');
   login(email, pw, function (err, user) {
+    /* istanbul ignore if */
     if(err){
       debug('Error: ' + JSON.stringify(err));
       next(err);
@@ -39,6 +40,7 @@ o.registerDefault = function (req, res, next) {
 
   debug('Registration starting. Using local.');
   register(email, pw, userName, function (err, user) {
+    /* istanbul ignore if */
     if(err){
       debug('Error: ' + JSON.stringify(err));
       next(err);
@@ -63,6 +65,7 @@ o.registerDefault = function (req, res, next) {
  */
 var login = function (email, pw, cb) {
   db.user.findOne({'authentication.emails': email}, function (err, user) {
+    /* istanbul ignore if */
     if(err){
       debug('Error: ' + JSON.stringify(err));
       cb(err, 'bad');
@@ -84,6 +87,7 @@ var login = function (email, pw, cb) {
   });
 };
 
+//TODO don't allow same username....
 /*
  Register
  email: String,
@@ -92,6 +96,7 @@ var login = function (email, pw, cb) {
  */
 var register = function (email, pw, userName, cb) {
   db.user.findOne({'authentication.emails': email}, function (err, user) {
+    /* istanbul ignore if */
     if(err){
       debug('Error: ' + JSON.stringify(err));
       cb(err, 'bad');
@@ -125,18 +130,21 @@ var register = function (email, pw, userName, cb) {
       // we can use the actual id or profile id
 
       u.save(function (err) {
+        /* istanbul ignore if */
         if(err){
           debug('Error: ' + JSON.stringify(err));
           cb(err, 'bad');
           return;
         }
         db.user.findById(u._id, function (err, user) {
+          /* istanbul ignore if */
           if(err){
             debug('Error: ' + JSON.stringify(err));
             cb(err, 'bad');
             return;
           }
 
+          /* istanbul ignore else */
           if(user){
             debug('User saved. User: ' + JSON.stringify(user));
             cb(null, user);

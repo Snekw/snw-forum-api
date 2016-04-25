@@ -4,7 +4,7 @@
 "use strict";
 var mongoose = require('mongoose');
 var ms = require('ms');
-var authConfig = require('../../../config/authConfig');
+var authConfig = require('../../../helpers/configStub')('auth');
 
 /*
  Login instance Schema

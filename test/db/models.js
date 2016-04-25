@@ -5,10 +5,7 @@
 "use strict";
 
 var expect = require('chai').expect,
-    proxyquire = require('proxyquire'),
-    configStub = require('../../helpers/configStub')('config');
-
-proxyquire('../../src/db/setup', configStub);
+    proxyquire = require('proxyquire');
 
 var models = require('../../src/db/models');
 
