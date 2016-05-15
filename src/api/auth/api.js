@@ -7,6 +7,7 @@ var authConfig = require('../../helpers/configStub')('auth');
 var db = require('../../db/models');
 var http = require('http');
 var lib = require('./lib');
+var common = require('../../lib/common');
 
 //Providers
 var pLocal = require('./providers/local');
@@ -47,53 +48,57 @@ o.logout = function (req, res) {
   });
 };
 
-o.validateUsername = function (req, res, next) {
-  if(!req.body.username){
-    res.status(400).json({message: 'No username specified', data: { isValid: false}});
+o.validate = function(req, res, next){
+  if(!req.body.type || !req.body.data){
+    debug('Invalid validate request');
+    o.invalidValidateRequest(res, '#api-1');
     return;
   }
+  debug('Validate request with: type: ' + req.body.type.toString() + ' data: ' + req.body.data.toString() );
+  var type = req.body.type.toString();
+  var data = req.body.data.toString();
 
-  db.user.findOne({'profile.userName': req.body.username}, function (err, user) {
+  var find = {};
+
+  switch(type){
+    case 'email':
+      if(!common.CheckIfValidEmail(data)){
+        o.invalidValidateRequest(res, '#api-2');
+        return;
+      }else{
+        find = {'authentication.emails': data};
+      }
+      break;
+    case 'userName':
+      find = {'profile.userName': data};
+      break;
+    default:
+      o.invalidValidateRequest(res, '#api-3');
+      return;
+  }
+
+
+  db.user.findOne(find, function (err, item) {
     /* istanbul ignore if */
     if(err){
       debug('Error: ' + JSON.stringify(err));
-      next(err);
+      o.DataBaseError(res, err, '#api-4');
       return;
     }
 
-    if(user){
-      debug('User found! Can\'t use that username!');
-      res.status(200).json({message:'Username in use', data: {isValid: false}});
+    if(item){
+      debug('Validate: Extisting document');
+      res.status(200).json({success: true, message:'In use', data: {isValid: false, type: type}});
     }else{
-      debug('User not found! Can use that username!');
-      res.status(200).json({message:'Username not used', data: {isValid: true}});
+      debug('Validate: No extisting document');
+      res.status(200).json({success: true, message:'Not used', data: {isValid: true, type: type}});
     }
   });
+  
 };
 
-o.validateEmail = function (req, res, next) {
-  if(!req.body.email){
-    res.status(400).json({message: 'No email specified', data: { isValid: false}});
-    return;
-  }
-
-  db.user.findOne({'authentication.emails': req.body.email}, function (err, user) {
-    /* istanbul ignore if */
-    if(err){
-      debug('Error: ' + JSON.stringify(err));
-      next(err);
-      return;
-    }
-
-    if(user){
-      debug('User found! Can\'t use that email!');
-      res.status(200).json({message:'Email in use', data: {isValid: false}});
-    }else{
-      debug('User not found! Can use that email!');
-      res.status(200).json({message:'Email not used', data: {isValid: true}});
-    }
-  });
+o.invalidValidateRequest = function(res, errId){
+  res.status(400).json({success: false, message: 'Invalid data', error:{status: 400, id: errId }, data: { isValid: false, type: null}});
 };
-
 
 module.exports = o;

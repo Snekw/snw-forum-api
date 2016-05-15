@@ -18,18 +18,18 @@ module.exports = function(cb){
 
   o.mockedUser = new dbModels.user();
   o.mockedUser.profile = {
-    email: 'asd@asd',
+    email: 'asd@asd.com',
     userName: 'testuser',
     profileId: uuid.v1(),
     profileShortId: shortid.generate()
   };
   o.mockedUser.authentication = {
-    emails: ['email@email', 'asd@asd'],
+    emails: ['email@email.com', 'asd@asd.com'],
     providers:[
       {
         pType: 'local',
         id: '1234567890',
-        email: 'asd@asd'
+        email: 'asd@asd.com'
       }
     ]
   };

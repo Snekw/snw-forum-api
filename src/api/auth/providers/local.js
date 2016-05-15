@@ -52,7 +52,7 @@ o.registerDefault = function (req, res, next) {
       lib.successFullAuth(user, res);
     }else{
       debug('Registration failed');
-      lib.failedAuth({type: 'local', f:'Registration failed.', a: 'register'}, res);
+      lib.failedAuth({type: 'local', reason:'Registration failed.', at: 'register'}, res);
     }
   });
 };
@@ -113,7 +113,7 @@ var register = function (email, pw, userName, cb) {
       u.profile.email = email;
       u.profile.userName = userName;
       u.profile.profileId = uuid.v1();
-      u.profile.profileShortId = shortid.generate();
+      u.profile.profileShortId = userName.toLowerCase();
       u.authentication = {};
       u.authentication.emails = [];
       u.authentication.emails.push(email.toString());

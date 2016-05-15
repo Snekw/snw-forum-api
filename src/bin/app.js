@@ -8,6 +8,7 @@ var path = require('path');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var config = require('../helpers/configStub')('main');
+var common = require('../lib/common');
 
 debug('Initialize express');
 var app = express();
@@ -52,24 +53,13 @@ app.use(function(req, res, next) {
 });
 
 //Error handlers
-
-// Development error handler
-// will print stacktrace
-/* istanbul ignore if */
-if (app.get('env') === 'development') {
-    app.use(function(err, req, res) {
-        console.log(err.stack);
-        res.status(err.status || 500);
-        res.json({message: err.message, error: {status: err.status, stack: err.stack}});
-    });
-}
-
-// Production error handler
-// no stacktraces leaked to user
 /* istanbul ignore next */
 app.use(function(err, req, res) {
     res.status(err.status || 500);
-    res.json({message: err.message, error: {}});
+    res.json({success: false, message: err.message, error: {
+      status: err.status,
+      stack: common.FilterErrorStack(err.stack)
+    }});
 });
 
 module.exports = app;

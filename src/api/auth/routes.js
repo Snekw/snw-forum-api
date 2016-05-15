@@ -21,8 +21,7 @@ var api = require('./api');
  */
 
 //Verification methods
-router.post('/v/u', api.validateUsername);
-router.post('/v/e', api.validateEmail);
+router.post('/validate', api.validate);
 
 //Login / register
 router.post('/default', api.loginDefault);

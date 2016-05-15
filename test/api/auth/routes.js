@@ -33,77 +33,208 @@ describe('auth routes', function(){
   after(function(done){
     dbHelpers.clearAndMock(done);
   });
+  describe('/auth/validate', function(){
+    describe('email', function(){
+      it('should return 200 with unused email', function(done){
+        supertest(app)
+          .post('/auth/validate')
+          .send({
+            type: 'email',
+            data: 'not@used.com'
+          })
+          .expect(function(res){
+            expect(res).to.exist;
+            expect(res.status).to.equal(200);
+            expect(res.body.success).to.be.true;
+            expect(res.body.message).to.exist;
+            expect(res.body.data).to.exist;
+            expect(res.body.data.isValid).to.be.true;
+          })
+          .expect(200, done);
+      });
 
-  describe('/auth/v/u', function(){
-    it('should return 200 with json  with unused username', function(done){
-      supertest(app)
-        .post('/auth/v/u')
-        .send({username:'test'})
-        .expect(function(res){
-          expect(res.status).to.equal(200);
-          expect(res.body.data.isValid).to.be.true;
-        })
-        .expect(200, done);
+      it('should return 400 with no email', function(done){
+        supertest(app)
+          .post('/auth/validate')
+          .send({
+            type: 'email'
+          })
+          .expect(function(res){
+            expect(res).to.exist;
+            expect(res.status).to.equal(400);
+            expect(res.body.success).to.be.false;
+            expect(res.body.message).to.exist;
+            expect(res.body.data).to.exist;
+            expect(res.body.data.isValid).to.be.false;
+          })
+          .expect(400, done);
+      });
+
+      it('should return 400 with no type', function(done){
+        supertest(app)
+          .post('/auth/validate')
+          .send({
+            data: 'asd@asd.com'
+          })
+          .expect(function(res){
+            expect(res).to.exist;
+            expect(res.status).to.equal(400);
+            expect(res.body.success).to.be.false;
+            expect(res.body.message).to.exist;
+            expect(res.body.data).to.exist;
+            expect(res.body.data.isValid).to.be.false;
+          })
+          .expect(400, done);
+      });
+
+      it('should return 400 and isValid false', function(done){
+        supertest(app)
+          .post('/auth/validate')
+          .send({
+            type: 'email',
+            data: 'asdasd.com'
+          })
+          .expect(function(res){
+            expect(res).to.exist;
+            expect(res.status).to.equal(400);
+            expect(res.body.success).to.be.false;
+            expect(res.body.message).to.exist;
+            expect(res.body.data).to.exist;
+            expect(res.body.data.isValid).to.be.false;
+          })
+          .expect(400, done);
+      });
+
+      it('should return 400 and isValid false', function(done){
+        supertest(app)
+          .post('/auth/validate')
+          .send({
+            type: 'email',
+            data: 'asd@asd'
+          })
+          .expect(function(res){
+            expect(res).to.exist;
+            expect(res.status).to.equal(400);
+            expect(res.body.success).to.be.false;
+            expect(res.body.message).to.exist;
+            expect(res.body.data).to.exist;
+            expect(res.body.data.isValid).to.be.false;
+          })
+          .expect(400, done);
+      });
+
+      it('should return 200 and isValid false with used email', function(done){
+        supertest(app)
+          .post('/auth/validate')
+          .send({
+            type: 'email',
+            data: 'asd@asd.com'
+          })
+          .expect(function(res){
+            expect(res).to.exist;
+            expect(res.status).to.equal(200);
+            expect(res.body.success).to.be.true;
+            expect(res.body.message).to.exist;
+            expect(res.body.data).to.exist;
+            expect(res.body.data.isValid).to.be.false;
+          })
+          .expect(200, done);
+      });
     });
 
-    it('should return 200 with json isValid false with used username', function(done){
-      supertest(app)
-        .post('/auth/v/u')
-        .send({username:'testuser'})
-        .expect(function(res){
-          expect(res.status).to.equal(200);
-          expect(res.body.data.isValid).to.be.false;
-        })
-        .expect(200, done);
+    describe('userName', function(){
+      it('should return 200 with unused username', function(done){
+        supertest(app)
+          .post('/auth/validate')
+          .send({
+            type: 'userName',
+            data: 'notused'
+          })
+          .expect(function(res){
+            expect(res).to.exist;
+            expect(res.status).to.equal(200);
+            expect(res.body.success).to.be.true;
+            expect(res.body.message).to.exist;
+            expect(res.body.data).to.exist;
+            expect(res.body.data.isValid).to.be.true;
+          })
+          .expect(200, done);
+      });
+
+      it('should return 400 with no email', function(done){
+        supertest(app)
+          .post('/auth/validate')
+          .send({
+            type: 'userName'
+          })
+          .expect(function(res){
+            expect(res).to.exist;
+            expect(res.status).to.equal(400);
+            expect(res.body.success).to.be.false;
+            expect(res.body.message).to.exist;
+            expect(res.body.data).to.exist;
+            expect(res.body.data.isValid).to.be.false;
+          })
+          .expect(400, done);
+      });
+
+      it('should return 400 with no type', function(done){
+        supertest(app)
+          .post('/auth/validate')
+          .send({
+            data: 'testuser'
+          })
+          .expect(function(res){
+            expect(res).to.exist;
+            expect(res.status).to.equal(400);
+            expect(res.body.success).to.be.false;
+            expect(res.body.message).to.exist;
+            expect(res.body.data).to.exist;
+            expect(res.body.data.isValid).to.be.false;
+          })
+          .expect(400, done);
+      });
+
+      it('should return 200 and isValid false with used userName', function(done){
+        supertest(app)
+          .post('/auth/validate')
+          .send({
+            type: 'userName',
+            data: 'testuser'
+          })
+          .expect(function(res){
+            expect(res).to.exist;
+            expect(res.status).to.equal(200);
+            expect(res.body.success).to.be.true;
+            expect(res.body.message).to.exist;
+            expect(res.body.data).to.exist;
+            expect(res.body.data.isValid).to.be.false;
+          })
+          .expect(200, done);
+      });
     });
 
-    it('should return 400', function(done){
-      supertest(app)
-        .post('/auth/v/u')
-        .send({})
-        .expect(function(res){
-          expect(res.status).to.equal(400);
-          expect(res.body.data.isValid).to.be.false;
-        })
-        .expect(400, done);
+    describe('unknown type', function(){
+      it('should return 400 with bad type', function(done){
+        supertest(app)
+          .post('/auth/validate')
+          .send({
+            type: 'notexisiting',
+            data: 'this is here'
+          })
+          .expect(function(res){
+            expect(res).to.exist;
+            expect(res.status).to.equal(400);
+            expect(res.body.success).to.be.false;
+            expect(res.body.message).to.exist;
+            expect(res.body.data).to.exist;
+            expect(res.body.data.isValid).to.be.false;
+          })
+          .expect(400, done);
+      });
     });
   });
 
-  describe('/auth/v/e', function(){
-    it('should return 200 with json with unused email', function(done){
-      supertest(app)
-        .post('/auth/v/e')
-        .send({email:'not@asd'})
-        .expect(function(res){
-          expect(res.status).to.equal(200);
-          expect(res.body.data.isValid).to.be.true;
-        })
-        .expect(200, done);
-    });
-
-    it('should return 200 with json isValid false with used email', function(done){
-      supertest(app)
-        .post('/auth/v/e')
-        .send({email:'asd@asd'})
-        .expect(function(res){
-          expect(res.status).to.equal(200);
-          expect(res.body.data.isValid).to.be.false;
-        })
-        .expect(200, done);
-    });
-
-    it('should return 400', function(done){
-      supertest(app)
-        .post('/auth/v/e')
-        .send({})
-        .expect(function(res){
-          expect(res.status).to.equal(400);
-          expect(res.body.data.isValid).to.be.false;
-        })
-        .expect(400, done);
-    });
-  });
-  
   describe('/auth/logout', function(){
     it('Should logout succesfully with valid login', function(done){
       var token;
@@ -137,7 +268,7 @@ describe('auth routes', function(){
   describe('/auth/default/r', function(){
     it('should register successfully', function(done){
       var body = {
-        email: 'test@test',
+        email: 'test@test.com',
         pw: 'not mine',
         userName: 'really'
       };
@@ -151,7 +282,7 @@ describe('auth routes', function(){
     
     it('should fail to register with used email', function(done){
       var body = {
-        email: 'asd@asd',
+        email: 'asd@asd.com',
         pw: 'not mine',
         userName: 'really'
       };
@@ -168,13 +299,13 @@ describe('auth routes', function(){
     it('should login successfully with valid email and password', function(done){
 
       var body = {
-        email: 'test@test',
+        email: 'test@test.com',
         pw: 'not mine',
         userName: 'really'
       };
 
       var loginBody = {
-        email: 'test@test',
+        email: 'test@test.com',
         pw: 'not mine'
       };
 
@@ -194,13 +325,13 @@ describe('auth routes', function(){
     it('should fail with bad email', function(done){
 
       var body = {
-        email: 'test@test',
+        email: 'test@test.com',
         pw: 'not mine',
         userName: 'really'
       };
 
       var loginBody = {
-        email: 'test@bad',
+        email: 'test@bad.com',
         pw: 'not mine'
       };
 
@@ -221,13 +352,13 @@ describe('auth routes', function(){
     it('should fail with bad password', function(done){
 
       var body = {
-        email: 'test@test',
+        email: 'test@test.com',
         pw: 'not mine',
         userName: 'really'
       };
 
       var loginBody = {
-        email: 'test@test',
+        email: 'test@test.com',
         pw: 'not mine hehe'
       };
 

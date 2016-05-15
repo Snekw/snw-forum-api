@@ -35,11 +35,7 @@ describe('auth api', function(){
     expect(api.logout).to.exist;
   });
 
-  it('should have validateUsername function', function(){
-    expect(api.validateUsername).to.exist;
-  });
-
-  it('should have validateEmail function', function(){
-    expect(api.validateEmail).to.exist;
+  it('should have validate function', function(){
+    expect(api.validate).to.exist;
   });
 });

@@ -34,7 +34,7 @@ var UserSchema = new mongoose.Schema({
     profileId: String,
     userName: {type: String, minlength:4 , maxlength:64},
     email: String,
-    avatarUrl: {type: String, default: 'default'}
+    avatarUrl: {type: String, default: '/images/defaultAva.png'}
   },
   settings: {
     privacy: {

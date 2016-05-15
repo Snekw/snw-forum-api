@@ -51,9 +51,30 @@ o.generateJwt = function (_user, cb) {
       }
 
       if(user){
+        var scopes = [];
+        for(var i = 0; i < user.permissions.scopes.length; i++){
+          scopes.push(user.permissions.scopes[i].field);
+        }
+        //Get all of the scopes associated with groups
+        var groups = [];
+        for(var d = 0; d < user.permissions.groups.length; d++){
+          groups.push(user.permissions.groups[d].name);
+          for(var c = 0; c < user.permissions.groups[d].scopes.length; c++){
+            var found = false;
+            //Don't add the scope in the array multiple times
+            for(var x = 0; x < scopes.length; x++){
+              if(scopes[x] === user.permissions.groups[d].scopes[c].field){
+                found = true;
+                break;
+              }
+            }
+            if(!found)
+              scopes.push(user.permissions.groups[d].scopes[c].field);
+          }
+        }
         var payload = {
-          scopes: user.permissions.scopes,
-          groups: user.permissions.groups
+          scopes: scopes,
+          groups: groups
         };
 
         var options =
@@ -210,15 +231,16 @@ o.expireJwt = function (jwt, cb) {
 o.successFullAuth = function (user, res) {
   debug('Login successful');
 
-  o.generateJwt(user, function (jwt) {
-    res.status(200).json({message: "Authentication successful!", data:{ user: user.profile, jwt: jwt }});
+  o.generateJwt(user, function (err, jwt) {
+    if(err) throw err;
+    res.status(200).json({success: true, message: "Authentication successful!", data:{ user: user.profile, jwt: jwt }});
   });
 
 };
 
 o.failedAuth = function (reason, res) {
   debug('Login failed');
-  res.status(401).json({error: { status: 401, message: 'Authentication failed!' }, message: "Authentication failed!", data: {reason: reason}});
+  res.status(401).json({success: false, error: { status: 401, message: 'Authentication failed!' }, message: "Authentication failed!", data: {reason: reason}});
 };
 
 module.exports = o;
